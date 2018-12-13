@@ -38,7 +38,7 @@ class ServiceAdapter(val items : ArrayList<Service>, val context: Context) : Rec
         holder.dateTV?.text = items.get(position).date
         holder.item.setBackgroundColor(Color.parseColor(backgrounds[position]))
         holder.item.setOnClickListener{
-            val uri = Uri.parse(items.get(position).url) // missing 'http://' will cause crashed
+            val uri = Uri.parse(items.get(position).url)
             val intent = Intent(Intent.ACTION_VIEW, uri)
             context.startActivity(intent)
         }

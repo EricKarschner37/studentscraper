@@ -1,5 +1,6 @@
 package com.eric.karschner.studentscraper
 
+import android.content.Context
 import android.content.DialogInterface
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -17,8 +18,16 @@ import org.jetbrains.anko.custom.customView
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.json.JSONObject
 import java.net.URL
+import java.io.BufferedReader
+import java.io.File
+import java.io.InputStreamReader
+
 
 class MainActivity : AppCompatActivity() {
+
+    var existingServices : String = ""
+
+    val READ_BLOCK_SIZE = 100
 
     val services : ArrayList<Service> = ArrayList()
 
@@ -31,6 +40,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(my_toolbar)
+
+        //writeServiceToStorage("Cengage", "ekarschner")
+        readServicesFromStorage()
+        existingServices.sp
 
         val yabla : ArrayList<String> = ArrayList()
         yabla.add("Yabla")
@@ -80,6 +93,7 @@ class MainActivity : AppCompatActivity() {
 
         R.id.action_refresh -> {
             // User chose the "Refresh" item
+            readServicesFromStorage()
             true
         }
 
@@ -150,9 +164,38 @@ class MainActivity : AppCompatActivity() {
             uiThread {
                 Log.i("AddService", "In uiThread")
                 val waiting = indeterminateProgressDialog("Adding Service")
-                onComplete { waiting.dismiss() }
+                onComplete {
+                    writeServiceToStorage(name, user)
+                    waiting.dismiss()
+                }
             }
         }
+    }
+
+    fun writeServiceToStorage(name: String, user: String){
+        val fOut = openFileOutput("Services.txt", Context.MODE_PRIVATE)
+        Log.i("Existing-Services-read", existingServices)
+        fOut.write(("$existingServices[$name,$user]").toByteArray())
+        fOut.close()
+    }
+
+    fun readServicesFromStorage(){
+        val fIn = openFileInput("Services.txt")
+        val isr = InputStreamReader(fIn)
+        val inputBuffer = CharArray(READ_BLOCK_SIZE)
+        existingServices = ""
+        var charRead: Int
+
+        charRead = isr.read(inputBuffer)
+        while ((charRead) > 0) {
+            // char to string conversion
+            val readstring = String(inputBuffer, 0, charRead)
+            existingServices += readstring
+            charRead = isr.read(inputBuffer)
+        }
+        Log.i("ServicesRead", existingServices)
+        fIn.close()
+        isr.close()
     }
 }
 
