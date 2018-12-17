@@ -14,6 +14,7 @@ import android.net.Uri
 
 class ServiceAdapter(val items : ArrayList<Service>, val context: Context) : RecyclerView.Adapter<ServiceAdapter.ViewHolder>() {
 
+    var onItemClick: ((Service) -> Unit)? = null
     val backgrounds : ArrayList<String> = ArrayList()
 
     // Gets the number of services in the list
@@ -32,8 +33,9 @@ class ServiceAdapter(val items : ArrayList<Service>, val context: Context) : Rec
 
     // Binds each service in the ArrayList to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Picasso.with(context).load(items.get(position).imageurl).into(holder.logoIV)
+        Picasso.with(context).load(items.get(position).imageid).into(holder.logoIV)
         holder.nameTV?.text = items.get(position).name
+        holder.userTV?.text = items.get(position).user
         holder.assignmentsTV?.text = items.get(position).assignments
         holder.dateTV?.text = items.get(position).date
         holder.item.setBackgroundColor(Color.parseColor(backgrounds[position]))
@@ -44,11 +46,19 @@ class ServiceAdapter(val items : ArrayList<Service>, val context: Context) : Rec
         }
     }
 
-    class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
         val logoIV = view.logo_iv
         val nameTV = view.name_tv
+        val userTV = view.user_tv
         val assignmentsTV = view.assignments_tv
         val dateTV = view.date_tv
+        val deleteIB = view.delete_IB
         val item = view
+
+        init {
+            deleteIB.setOnClickListener{
+                onItemClick?.invoke(items[adapterPosition])
+            }
+        }
     }
 }

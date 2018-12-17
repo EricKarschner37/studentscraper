@@ -23,7 +23,7 @@ class AddServiceAdapter(var selections: ArrayList<ServiceSelection>, val context
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val service = selections[position]
         holder.addServiceNameTV.text = service.name
-        Picasso.with(context).load(service.imageurl).into(holder.addServiceIV)
+        Picasso.with(context).load(service.imageid).into(holder.addServiceIV)
     }
 
     inner class ViewHolder(item: View) : RecyclerView.ViewHolder(item){

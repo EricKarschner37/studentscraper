@@ -19,6 +19,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/name_tv"/>
+
+    <TextView
+        android:padding="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ekars12"
+        android:id="@+id/user_tv"/>
+
     <View
         android:padding="12dp"
         android:layout_width="0dp"
@@ -29,12 +37,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/assignments_tv"
-        android:text="2 Assignments"/>
+        android:text="0"/>
     <TextView
         android:padding="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/date_tv"
-        android:text="12/8"/>
+        android:text="1/1"/>
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_delete"
+        android:background="?android:selectableItemBackground"
+        android:id="@+id/delete_IB"/>
 
 </LinearLayout>
